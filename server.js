@@ -33,16 +33,18 @@ app.route('/_api/package.json')
     });
   });
   
-app.route('/')
-    .get(function(req, res) {
-		  res.sendFile(process.cwd() + '/views/index.html');
-    })
+// app.route('/')
+//     .get(function(req, res) {
+// 		  res.sendFile(process.cwd() + '/views/index.html');
+//     })
 
-app.route('/shred').get(function(req, res)
+app.route('/').get(function(req, res)
 {
-  var ip = req.headers['x-forwarded-for'].split()
-  //res.send(req.headers['x-forwarded-for']);
-  res.send(req.headers);
+  var ip = req.headers['x-forwarded-for'].split(',')[0];
+  var language = req.headers["accept-language"].split(',')[0];
+  var software = req.headers['user-agent'].split('(')[1].split(')')[0];
+  var returnObj = {ipaddress: ip, language: language, software: software};
+  res.send(returnObj);
 })
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
