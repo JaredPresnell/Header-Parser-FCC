@@ -38,6 +38,12 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 
+app.route('/shred').get(function(req, res)
+{
+  var ip = req.headers['x-forwarded-for'].split()
+  //res.send(req.headers['x-forwarded-for']);
+  res.send(req.headers);
+})
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
   res.status(404);
